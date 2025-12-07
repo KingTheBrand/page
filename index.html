@@ -312,6 +312,69 @@
         .skill-icon { font-size: 3rem; margin-bottom: 20px; color: var(--neon-red); }
         .skill-title { font-size: 1.5rem; font-weight: bold; margin-bottom: 10px; }
 
+        /* --- INSTAGRAM SHOWCASE CSS --- */
+        .insta-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .insta-card {
+            background: #111;
+            border: 1px solid #222;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: 0.3s;
+        }
+        
+        .insta-card:hover {
+            border-color: var(--neon-red);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 51, 51, 0.2);
+        }
+
+        .insta-header {
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid #222;
+            color: white;
+            font-weight: bold;
+        }
+
+        .insta-img-placeholder {
+            width: 100%;
+            height: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #1a1a1a;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .insta-footer {
+            padding: 15px;
+        }
+
+        .insta-actions {
+            display: flex;
+            gap: 15px;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: white;
+        }
+        
+        .insta-actions i:hover { color: var(--neon-red); transform: scale(1.1); transition: 0.2s; }
+
+        .insta-caption {
+            font-size: 0.9rem;
+            color: #ccc;
+            line-height: 1.4;
+        }
+
         /* --- HELP BUTTON & MODAL CSS --- */
         .help-btn {
             position: fixed;
@@ -660,6 +723,66 @@
         </div>
     </section>
 
+    <!-- INSTAGRAM SHOWCASE -->
+    <section id="social-feed">
+        <h2 class="section-title">THE FEED</h2>
+        <div class="insta-grid">
+            
+            <!-- Post 1 -->
+            <div class="insta-card">
+                <div class="insta-header">
+                    <i class="fas fa-user-circle" style="font-size: 30px; color: var(--gold);"></i>
+                    <span>adityasaurabh2</span>
+                </div>
+                <!-- Updated Image Link 1 -->
+                <img src="https://i.ibb.co/RTYb34hR/Whats-App-Image-2025-12-07-at-9-11-22-AM-1.jpg" 
+                     alt="Aditya Saurabh Post 1" 
+                     style="width: 100%; height: 350px; object-fit: cover; display: block; background: #222;"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                
+                <!-- Fallback if link is broken -->
+                <div class="insta-img-placeholder" style="display: none; height: 350px; background: linear-gradient(135deg, #111, #333);">
+                   <i class="fas fa-crown" style="font-size: 60px; color: rgba(255,215,0,0.2);"></i>
+                </div>
+
+                <div class="insta-footer">
+                    <div class="insta-actions">
+                        <!-- Only Share Button Kept -->
+                        <i class="fas fa-paper-plane" onclick="shareWebsite()" title="Share Website"></i>
+                    </div>
+                    <p class="insta-caption"><strong>adityasaurabh2</strong> Ruling the area with style. It's not just about presence, it's about impact. Meet the King. 👑 #KingTheBrand #BhaiyaJii #Patna</p>
+                </div>
+            </div>
+
+            <!-- Post 2 -->
+            <div class="insta-card">
+                <div class="insta-header">
+                    <i class="fas fa-user-circle" style="font-size: 30px; color: var(--gold);"></i>
+                    <span>adityasaurabh2</span>
+                </div>
+                <!-- Updated Image Link 2 -->
+                <img src="https://i.ibb.co/SX2d8CG9/Whats-App-Image-2025-12-07-at-9-11-22-AM.jpg" 
+                     alt="Aditya Saurabh Post 2" 
+                     style="width: 100%; height: 350px; object-fit: cover; display: block; background: #222;"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+
+                <!-- Fallback if link is broken -->
+                <div class="insta-img-placeholder" style="display: none; height: 350px; background: linear-gradient(135deg, #050505, #222);">
+                   <i class="fas fa-flask" style="font-size: 60px; color: rgba(255,51,51,0.2);"></i>
+                </div>
+
+                <div class="insta-footer">
+                    <div class="insta-actions">
+                        <!-- Only Share Button Kept -->
+                        <i class="fas fa-paper-plane" onclick="shareWebsite()" title="Share Website"></i>
+                    </div>
+                    <p class="insta-caption"><strong>adityasaurabh2</strong> From Chapra to Patna, the journey never stops. B. Pharma & Business. Moves only. 🚀 #Grind #Future</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
     <!-- FOOTER -->
     <footer>
         <h2 style="color:white; font-family:'Oswald'; margin-bottom:20px;">JOIN THE EMPIRE</h2>
@@ -672,6 +795,26 @@
     </footer>
 
     <script>
+        // --- SHARE FUNCTIONALITY ---
+        function shareWebsite() {
+            const shareData = {
+                title: 'Aditya Saurabh | King The Brand',
+                text: 'Meet my bhaiya jii - Aditya Saurabh',
+                url: 'https://kingthebrand.github.io/page/'
+            };
+
+            // Use Web Share API if available (Mobile/Modern Browsers)
+            if (navigator.share) {
+                navigator.share(shareData)
+                    .then(() => console.log('Shared successfully'))
+                    .catch((err) => console.log('Error sharing:', err));
+            } else {
+                // Fallback to WhatsApp for Desktop/Unsupported browsers
+                const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(shareData.text + " " + shareData.url)}`;
+                window.open(whatsappUrl, '_blank');
+            }
+        }
+
         // --- HELP MODAL LOGIC ---
         function openModal() {
             document.getElementById('helpModal').style.display = 'flex';
@@ -771,7 +914,7 @@
             });
         });
 
-        const hiddenElements = document.querySelectorAll('.section-title, .bio-text, .bio-stats, .timeline-item');
+        const hiddenElements = document.querySelectorAll('.section-title, .bio-text, .bio-stats, .timeline-item, .insta-card');
         hiddenElements.forEach((el) => observer.observe(el));
 
 
