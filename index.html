@@ -312,6 +312,133 @@
         .skill-icon { font-size: 3rem; margin-bottom: 20px; color: var(--neon-red); }
         .skill-title { font-size: 1.5rem; font-weight: bold; margin-bottom: 10px; }
 
+        /* --- HELP BUTTON & MODAL CSS --- */
+        .help-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 70px;
+            height: 70px;
+            background: var(--neon-red);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 1.5rem;
+            box-shadow: 0 0 20px rgba(255, 51, 51, 0.6);
+            z-index: 1000;
+            transition: 0.3s;
+            border: 2px solid var(--gold);
+            animation: pulse-red 2s infinite;
+        }
+        .help-btn:hover { transform: scale(1.1); box-shadow: 0 0 40px rgba(255, 51, 51, 1); }
+        
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 2000;
+            display: none; /* Hidden by default */
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-card {
+            background: #111;
+            padding: 40px;
+            width: 90%;
+            max-width: 500px;
+            border-radius: 20px;
+            border: 1px solid var(--gold);
+            position: relative;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.2);
+            animation: slideUp 0.3s ease-out;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            color: #666;
+            font-size: 1.5rem;
+            cursor: pointer; /* Override global none */
+        }
+        .close-modal:hover { color: var(--neon-red); }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            color: var(--gold);
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            font-family: 'Oswald';
+        }
+
+        .form-input {
+            width: 100%;
+            background: #222;
+            border: 1px solid #444;
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            font-family: 'Montserrat';
+        }
+        .form-input:focus { outline: none; border-color: var(--neon-red); }
+
+        .input-with-btn {
+            display: flex;
+            gap: 10px;
+        }
+
+        .action-btn {
+            background: #333;
+            color: white;
+            border: 1px solid #555;
+            padding: 0 15px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            transition: 0.2s;
+        }
+        .action-btn:hover { background: #444; border-color: var(--gold); }
+
+        .submit-btn {
+            width: 100%;
+            background: var(--gold);
+            color: black;
+            font-weight: bold;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            margin-top: 10px;
+            text-transform: uppercase;
+        }
+        .submit-btn:hover { background: var(--neon-red); color: white; }
+
+        @keyframes pulse-red {
+            0% { box-shadow: 0 0 0 0 rgba(255, 51, 51, 0.7); }
+            70% { box-shadow: 0 0 0 20px rgba(255, 51, 51, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 51, 51, 0); }
+        }
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Override cursor none for form interactions */
+        .modal-card input, .modal-card textarea, .modal-card button {
+            cursor: auto; 
+        }
+
         /* --- FOOTER --- */
         footer {
             text-align: center;
@@ -398,6 +525,52 @@
         <div class="tagline">King The Brand</div>
         <p style="margin-top:20px; font-style: italic; opacity: 0.7;">"Driven by Maan. Ruled by None."</p>
     </header>
+
+    <!-- HELP BUTTON -->
+    <div class="help-btn" onclick="openModal()">
+        <i class="fas fa-question"></i>
+    </div>
+
+    <!-- HELP MODAL POPUP -->
+    <div class="modal-overlay" id="helpModal">
+        <div class="modal-card">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <h2 style="color:var(--gold); font-family:'Oswald'; margin-bottom:20px;">NEED ASSISTANCE?</h2>
+            
+            <div class="form-group">
+                <label class="form-label">NAME</label>
+                <input type="text" id="req-name" class="form-input" placeholder="Your Name">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">CONTACT NUMBER</label>
+                <input type="tel" id="req-phone" class="form-input" placeholder="+91 XXXXX XXXXX">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">LIVE LOCATION</label>
+                <div class="input-with-btn">
+                    <input type="text" id="req-location" class="form-input" placeholder="Coordinates/Link" readonly>
+                    <button class="action-btn" onclick="fetchLocation()"><i class="fas fa-map-marker-alt"></i> Fetch</button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">GMAIL</label>
+                <div class="input-with-btn">
+                    <input type="email" id="req-email" class="form-input" placeholder="your@email.com">
+                    <button class="action-btn" onclick="fetchEmail()"><i class="fas fa-envelope"></i> Auto-Fill</button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">REQUEST MESSAGE</label>
+                <textarea id="req-msg" class="form-input" rows="3" placeholder="How can the King help you?"></textarea>
+            </div>
+
+            <button class="submit-btn" onclick="sendToWhatsapp()">Send Request <i class="fab fa-whatsapp"></i></button>
+        </div>
+    </div>
 
     <!-- ABOUT -->
     <section id="about">
@@ -499,6 +672,78 @@
     </footer>
 
     <script>
+        // --- HELP MODAL LOGIC ---
+        function openModal() {
+            document.getElementById('helpModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('helpModal').style.display = 'none';
+        }
+
+        // Close modal if clicking outside
+        window.onclick = function(event) {
+            if (event.target == document.getElementById('helpModal')) {
+                closeModal();
+            }
+        }
+
+        function fetchLocation() {
+            const locInput = document.getElementById('req-location');
+            locInput.value = "Fetching satellites...";
+            
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const lat = position.coords.latitude;
+                        const lng = position.coords.longitude;
+                        // Create Google Maps Link
+                        locInput.value = `https://www.google.com/maps?q=${lat},${lng}`;
+                    },
+                    (error) => {
+                        locInput.value = "Location Denied/Error";
+                        alert("Allow location access to fetch live coordinates.");
+                    }
+                );
+            } else {
+                locInput.value = "Not supported by browser";
+            }
+        }
+
+        function fetchEmail() {
+            // Note: Browsers do not allow programmatic access to logged-in Chrome/Gmail email for security.
+            // We simulate the UX by asking the user to confirm.
+            const email = prompt("Browser Security: Please confirm your active email address:");
+            if (email) {
+                document.getElementById('req-email').value = email;
+            }
+        }
+
+        function sendToWhatsapp() {
+            const name = document.getElementById('req-name').value;
+            const phone = document.getElementById('req-phone').value;
+            const loc = document.getElementById('req-location').value;
+            const email = document.getElementById('req-email').value;
+            const msg = document.getElementById('req-msg').value;
+
+            if(!name || !phone) {
+                alert("Please fill at least Name and Contact.");
+                return;
+            }
+
+            // Construct Message
+            const whatsappMsg = `*URGENT REQUEST FOR ADITYA SAURABH*%0a%0a` + 
+                                `👤 *Name:* ${name}%0a` +
+                                `📞 *Contact:* ${phone}%0a` +
+                                `📧 *Email:* ${email || 'Not Provided'}%0a` +
+                                `📍 *Location:* ${loc || 'Not Fetched'}%0a%0a` +
+                                `📝 *Request:* ${msg}`;
+
+            const url = `https://wa.me/918051109113?text=${whatsappMsg}`;
+            window.open(url, '_blank');
+            closeModal();
+        }
+
         // --- CURSOR LOGIC ---
         const cursorDot = document.querySelector('[data-cursor-dot]');
         const cursorOutline = document.querySelector('[data-cursor-outline]');
